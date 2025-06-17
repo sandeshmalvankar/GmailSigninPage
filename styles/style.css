@@ -16,6 +16,7 @@ body {
 a {
   font-weight: bolder;
   color: #1a73e8;
+  text-decoration: none;
 }
 
 a:hover {
