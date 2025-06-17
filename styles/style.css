@@ -8,10 +8,20 @@
   position: absolute;
 }
 
+body {
+  font-family: 'Roboto', Arial, Helvetica, sans-serif;
+  color: #202124; /* Default text color */
+}
+
 a {
-  text-decoration: none;
   font-weight: bolder;
   color: #1a73e8;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #1558b0; /* Slightly darker blue for hover */
 }
 
 .main {
@@ -51,13 +61,20 @@ a {
 .email {
   height: 50px;
   border-radius: 8px;
-  border: 0.5px solid rgb(68, 66, 66);
+  border: 1px solid #dadce0; /* Updated border color */
   padding: 0px 10px 0px 10px;
   margin-bottom: 8px;
+  font-size: 16px; /* Placeholder text benefits from explicit font size */
 }
 
-.email:focus-visible {
-  outline-color: #1a73e8;
+.email::placeholder {
+  color: #80868b; /* Light gray for placeholder */
+}
+
+.email:focus { /* Changed from focus-visible for broader compatibility and to control border directly */
+  outline: none; /* Remove default outline */
+  border: 2px solid #1a73e8;
+  padding: 0px 9px 0px 9px; /* Adjust padding to keep inner size consistent */
 }
 
 .content {
@@ -71,11 +88,19 @@ a {
 }
 
 .create-account {
-  padding: 8px;
+  padding: 8px 0px; /* Adjusted padding, more vertical for link-like feel */
+  display: inline-block; /* Allows padding to take effect properly */
 }
-.create-account:hover {
-  color: blue;
-  background-color: aliceblue;
+/* .create-account:hover will inherit from a:hover */
+
+.use-another-account {
+  margin-top: 10px; /* Added margin for spacing */
+  display: inline-block; /* Ensures it behaves as a block for margin */
+}
+
+.learn-more-signin {
+  display: inline-block; /* Consistent with other similar links */
+  margin-top: 10px; /* Spacing from the item above it */
 }
 
 .next {
@@ -84,14 +109,23 @@ a {
   width: 90px;
   color: white;
   background-color: #1a73e8;
-  border: 0px;
+  border: none; /* Explicitly none */
   border-radius: 5px;
-  padding: 5px 10px 5px 10px;
+  padding: 5px 10px; /* Simplified padding */
   align-self: flex-end;
+  cursor: pointer; /* Add pointer cursor */
+  font-size: 14px;
+  font-weight: bold;
 }
 
 .next:hover {
-  background-color: blue;
+  background-color: #1565c0; /* Darker shade of blue */
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+}
+
+.next:active {
+  background-color: #1255a0; /* Even darker for active state */
+  box-shadow: 0 1px 2px 0 rgba(0,0,0,.15);
 }
 
 .footer {
@@ -112,16 +146,67 @@ a {
 
 @media (max-width: 600px) {
   .main {
-    width: auto;
+    width: 90%; /* Make main content area take more screen width */
+    max-width: 400px; /* But not more than original fixed width */
     border: none;
+    padding: 40px 20px; /* Reduced vertical padding */
+    height: auto; /* Allow height to adjust to content */
   }
   .email {
-    width: auto;
+    width: auto; /* Already there, good */
+  }
+  .input a { /* Ensure links in input section are not overly bold on small screens */
+    font-weight: normal; /* Resetting to normal, can be adjusted if too subtle */
+  }
+  .use-another-account {
+    margin-top: 12px; /* Slightly increase margin for clarity */
   }
   .content {
     flex-direction: row;
     width: 90%;
+    flex-wrap: wrap; /* Allow "Learn more" to wrap */
+    justify-content: center; /* Center items if they wrap */
   }
+  .content span {
+    margin-right: 5px; /* Space between text and link */
+    margin-bottom: 5px; /* Space if "Learn More" wraps */
+  }
+  .content a { /* Target all links within .content for responsive adjustments */
+    margin-left: 5px; /* Add some horizontal spacing when in row layout */
+    margin-bottom: 5px; /* Add some bottom margin in case they wrap and stack */
+  }
+  .buttons {
+    display: flex;
+    flex-direction: column-reverse; /* Stack "Next" button above "Create account" */
+    width: 90%;
+    margin-top: 30px; /* Reduced top margin */
+  }
+  .buttons .create-account,
+  .buttons .next {
+    float: none;
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 15px;
+    padding-left: 10px; /* ensure padding is consistent if box-sizing changes */
+    padding-right: 10px;
+  }
+  .buttons .next {
+    margin-left: 0; /* Remove any float-induced margin */
+    align-self: center; /* Center button if flex properties were inherited */
+  }
+  .buttons .create-account {
+    order: 1; /* Explicitly put create account below next if column-reverse wasn't enough */
+  }
+   .buttons .next {
+    order: 0; /* Explicitly put next button above */
+    margin-bottom: 0; /* Remove bottom margin from the last button (Next) */
+  }
+  .buttons .create-account {
+     margin-bottom: 15px; /* Add margin back to create-account if it's not the last */
+  }
+
+
   .footer {
     width: 80%;
     bottom: 0;
@@ -133,6 +218,19 @@ a {
 
 @media (max-width : 554px) {
   .content {
-    flex-direction: column;
+    flex-direction: column; /* This is fine, reverts the row layout for very small screens */
+    align-items: center; /* Center the items when in column */
+  }
+  .content span {
+    margin-right: 0; /* Remove right margin when in column */
+    text-align: center; /* Center text */
+  }
+  .content a {
+    margin-left: 0; /* Remove horizontal margin when stacked */
+    /* margin-top on .learn-more-signin will ensure vertical spacing */
+  }
+  .buttons .create-account,
+  .buttons .next {
+    font-size: 16px; /* Slightly larger font for buttons on very small screens for tapability */
   }
 }
